@@ -30,10 +30,12 @@ int main(void) {
     printf("After the fork, the process identifier (pid) "
            "of the child is %d\n",
            (int)getpid());
+    // This is the child process' code
   } else {
     printf("After the fork, the process identifier (pid) "
            "of the parent is still %d\n - fork() returned %d\n",
            (int)getpid(), pid);
+    // This is the parent process' code
   }
 
   return 0;

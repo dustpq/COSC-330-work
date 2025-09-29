@@ -21,6 +21,8 @@ int main(void) {
 
   if (pid == 0) {
     execvp("find", argv);
+    // The child process will simply run this command, and it will never reach
+    // the lines of code below it
   }
 
   /* Put the parent to sleep for 2 seconds--let the child finished executing */
@@ -28,6 +30,8 @@ int main(void) {
 
   printf("Finished executing the parent process\n"
          " - the child won't get here--you will only see this once\n");
+  // Only the parent reaches this part of the code, as fork() tells it is not
+  // the child process
 
   return 0;
 }

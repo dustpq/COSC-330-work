@@ -19,10 +19,14 @@ int main(void) {
 
   if (pid == 0) {
     printf("This is being printed from the child process\n");
+    // The child process will only print out this line because fork() returned a
+    // zero
   } else {
     printf("This is being printed in the parent process:\n"
            "  The process identifier (pid) of the child is %d\n",
            pid);
+    // Meanwhile, the parent process gets an actual PID from fork() because it
+    // is the original process
   }
 
   return 0;
