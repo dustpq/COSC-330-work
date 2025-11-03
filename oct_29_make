@@ -1,0 +1,21 @@
+# Defining recipe line
+.RECIPEPREFIX = >
+
+# Define the C compiler
+CC = clang
+
+# Defining source files
+SOURCES = oct_29_lib.c oct_29_main.c
+# Generate object files from source files
+OBJECTS = $(patsubst %.c, %.o, $(SOURCES))
+
+# Pattern rule to create .o files from .c files
+%.o: %.c
+> $(CC) -c $< -o $@
+
+# Target for final binary
+oct_29_app: $(OBJECTS)
+> $(CC) $(OBJECTS) -o builds/oct_29_app
+
+clean:
+> rm -f $(OBJECTS)
