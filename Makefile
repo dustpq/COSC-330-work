@@ -14,7 +14,7 @@ SOURCES = $(SRC_DIR)/microShell.c $(SRC_DIR)/microShell_functions.c
 OBJS = $(LIB_DIR)/oct_29_lib.o
 
 # Static library
-LIB = $(LIB_DIR)/liboct29.a
+LIB = $(LIB_DIR)/oct_29_lib.a
 
 # Output executable
 OUTPUT = microShell
