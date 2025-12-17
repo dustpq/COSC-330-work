@@ -2,12 +2,7 @@
 // Include ability to run "ls", "mkdir", and maybe a few more later on.
 // The idea is to make a rip off BASH shell
 
-#include <limits.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+#include "microShell_functions.h"
 
 int main() {
   printf("\033[2J\033[H");
@@ -17,53 +12,56 @@ int main() {
   for (;;) {
     printf("user@CShell %s> ", cwd);
 
-    char input[10];
-    int scan_result = scanf("%s", &input[0]);
+    char input[256];
+    char command[50], argument [200];
+
+    if (fgets(input, sizeof(input), stdin) == NULL) {
+      perror("ERROR: Failed to read input.");
+      exit(1);
+    }
+
+    if (sscanf(input, "%49s %199[^\n]", command, argument) < 1) {
+    printf("CShell: Invalid input.\n");
+    continue;
+    }
 
     if (strcmp(input, "ls") == 0) {
-      pid_t ls = fork();
-
-      if (ls < 0) {
-        // Fork failed, exiting program
-        perror("ERROR: Fork failed.");
-        exit(1);
-      } else if (ls == 0) {
-        // Child process continues here
-        execlp("ls", "ls,", NULL);
-        // If exec fails, print error
-        perror("ERROR: Failed to execute ls.");
-        exit(1);
-      } else {
-        // Parent process continues here
-        wait(NULL);
-      }
+      list_directory_contents();
 
     } else if (strcmp(input, "mkdir") == 0) {
-      pid_t mkdir = fork();
-
-      if (mkdir < 0) {
-        // Fork failed, exiting program
-        perror("ERROR: Fork failed.");
-        exit(1);
-      } else if (mkdir == 0) {
-        // Child process continues here
-        execlp("mkdir", "mkdir,", "new_dir", NULL);
-        // If exec fails, print error
-        perror("ERROR: Failed to execute mkdir.");
-        exit(1);
-      } else {
-        // Parent process continues here
-        wait(NULL);
+      if (strlen(argument) == 0) {
+        printf("CShell: mkdir requires a directory name\n");
+        continue;
       }
+      create_directory(argument);
+
+    } else if (strcmp(input, "rmdir") == 0) {
+      if (strlen(argument) == 0) {
+        printf("CShell: rmdir requires a directory name\n");
+        continue;
+      }
+      remove_directory(argument);
+
+    } else if (strcmp(input, "cd") == 0) {
+      if (strlen(argument) == 0) {
+        printf("CShell: cd requires a path\n");
+        continue;
+      }
+      change_directory(argument);
+      getcwd(cwd, sizeof(cwd));
+
+    } else if (strcmp(input, "clear") == 0) {
+      clear_screen();
 
     } else if (strcmp(input, "help") == 0) {
-      printf("Availible commands:\nls\nmkdir\nhelp\n");
-
+      display_help();
+    
     } else if (strcmp(input, "exit") == 0) {
       printf("Process finished.\n");
       exit(0);
 
-    } else {
+    } 
+    else {
       printf("CShell: command not found: %s\n", &input[0]);
     }
   };
