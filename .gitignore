@@ -4,3 +4,5 @@ Week4/
 *.out
 builds/
 .DS_store
+oct29/*.o
+oct29/*.a
