@@ -27,7 +27,8 @@ all: $(OUTPUT)
 
 # Build the static library
 $(LIB): $(OBJS)
-	ar rcs $@ $^
+    ar rcs $@ $^
+    ranlib $@
 
 # Compile object files
 $(LIB_DIR)/oct_29_lib.o: $(LIB_DIR)/oct_29_lib.c
