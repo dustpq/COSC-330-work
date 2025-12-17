@@ -50,6 +50,32 @@ void change_directory(const char* path) {
         perror("ERROR: Failed to change directory.");
     }
 }
+void touch_file(const char* file_name) {
+    pid_t touch = fork();
+    if (touch < 0) {
+        perror("ERROR: Fork failed.");
+        exit(1);
+    } else if (touch == 0) {
+        execlp("touch", "touch", file_name, NULL);
+        perror("ERROR: Failed to execute touch.");
+        exit(1);
+    } else {
+        wait(NULL);
+    }
+}
+void remove_file(const char* file_name) {
+    pid_t rm = fork();
+    if (rm < 0) {
+        perror("ERROR: Fork failed.");
+        exit(1);
+    } else if (rm == 0) {
+        execlp("rm", "rm", file_name, NULL);
+        perror("ERROR: Failed to execute rm.");
+        exit(1);
+    } else {
+        wait(NULL);
+    }
+}
 void display_help() {
     printf("Available commands:\n");
     printf("ls - List directory contents\n");

@@ -7,11 +7,13 @@
 #include <limits.h>
 #include <stdbool.h>
 
-void clear_screen() {}
-void get_current_working_directory(char* cwd, size_t size) {}
-void list_directory_contents() {}
-void create_directory(const char* dir_name) {}
-void remove_directory(const char* dir_name) {}
-void change_directory(const char* path) {}
-void display_help() {}
-void parse_input(char* input, char** args, int* arg_count) {}
+void clear_screen();
+void get_current_working_directory(char* cwd, size_t size);
+void list_directory_contents();
+void create_directory(const char* dir_name);
+void remove_directory(const char* dir_name);
+void change_directory(const char* path);
+void display_help();
+void touch_file(const char* file_name);
+void remove_file(const char* file_name);
+void parse_input(char* input, char** args, int* arg_count);
